@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页 | 产品经理简历</title>
+    <meta name="description" content="产品经理个人简历网站，电信业务项目经验，擅长中台系统、后台迁移、H5需求设计与跨团队项目落地。">
+    <meta name="keywords" content="产品经理,个人简历,电信业务,系统迁移,需求设计">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.85);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --accent-dark: #1d4ed8;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
+            --gradient: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+        }
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --bg-nav: rgba(15, 23, 42, 0.85);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --accent: #60a5fa;
+            --accent-light: #1e3a5f;
+            --accent-dark: #3b82f6;
+            --border: #334155;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background 0.3s, color 0.3s;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { color: var(--accent-dark); }
+
+        /* ===== 导航栏 ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: var(--bg-nav);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .nav-container {
+            max-width: 1100px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            font-size: 18px; font-weight: 700; color: var(--text-primary);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); font-size: 14px; font-weight: 500;
+            transition: color 0.2s; position: relative;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+            background: var(--accent); transition: width 0.3s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+        .theme-toggle {
+            width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border);
+            background: var(--bg-card); cursor: pointer; display: flex; align-items: center;
+            justify-content: center; font-size: 16px; transition: all 0.2s; color: var(--text-primary);
+        }
+        .theme-toggle:hover { border-color: var(--accent); transform: scale(1.05); }
+        .btn-resume {
+            padding: 8px 18px; border-radius: 8px; background: var(--accent); color: #fff;
+            font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-resume:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+        .menu-toggle { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-primary); }
+
+        /* ===== Hero ===== */
+        .hero {
+            padding: 140px 24px 80px; text-align: center;
+            background: var(--gradient); position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            animation: float 20s ease-in-out infinite;
+        }
+        @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px, -30px); } }
+        .hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+        .hero-avatar {
+            width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 24px;
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+            border: 3px solid rgba(255,255,255,0.3); display: flex; align-items: center;
+            justify-content: center; font-size: 44px; color: #fff;
+        }
+        .hero h1 { font-size: 40px; font-weight: 800; color: #fff; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .hero .title { font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 18px; font-weight: 500; }
+        .hero .tagline { font-size: 15px; color: rgba(255,255,255,0.75); max-width: 560px; margin: 0 auto 28px; line-height: 1.8; }
+        .hero-social { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .hero-social a {
+            padding: 8px 18px; border-radius: 20px; background: rgba(255,255,255,0.12);
+            color: #fff; font-size: 13px; font-weight: 500; border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.2s; backdrop-filter: blur(4px);
+        }
+        .hero-social a:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+
+        /* ===== 通用 Section ===== */
+        .section { max-width: 900px; margin: 0 auto; padding: 70px 24px; }
+        .section-title {
+            font-size: 26px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .section-title::before {
+            content: ''; width: 4px; height: 26px; background: var(--accent); border-radius: 2px;
+        }
+        .section-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 36px; padding-left: 16px; }
+
+        /* ===== 关于我 ===== */
+        .about-card {
+            background: var(--bg-card); border-radius: 14px; padding: 32px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+        }
+        .about-card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 14px; }
+        .about-card p:last-child { margin-bottom: 0; }
+        .about-highlights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+        .highlight-item {
+            text-align: center; padding: 18px 12px; border-radius: 10px;
+            background: var(--accent-light); transition: transform 0.2s;
+        }
+        .highlight-item:hover { transform: translateY(-3px); }
+        .highlight-num { font-size: 28px; font-weight: 800; color: var(--accent); }
+        .highlight-label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+        /* ===== 工作经历 时间轴 ===== */
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 8px; top: 6px; bottom: 6px;
+            width: 2px; background: var(--border);
+        }
+        .timeline-item { position: relative; margin-bottom: 28px; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot {
+            position: absolute; left: -32px; top: 6px; width: 18px; height: 18px;
+            border-radius: 50%; background: var(--bg); border: 3px solid var(--accent);
+            z-index: 1;
+        }
+        .timeline-card {
+            background: var(--bg-card); border-radius: 12px; padding: 24px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            transition: all 0.25s;
+        }
+        .timeline-card:hover { box-shadow: var(--shadow-hover); transform: translateX(4px); }
+        .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+        .timeline-role { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+        .timeline-time { font-size: 13px; color: var(--text-muted); background: var(--accent-light); padding: 3px 12px; border-radius: 12px; font-weight: 500; }
+        .timeline-company { font-size: 14px; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+        .timeline-card ul { padding-left: 18px; color: var(--text-secondary); font-size: 14px; }
+        .timeline-card li { margin-bottom: 6px; }
+        .timeline-card li:last-child { margin-bottom: 0; }
+
+        /* ===== 项目经历 ===== */
+        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .project-card {
+            background: var(--bg-card); border-radius: 14px; padding: 26px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            transition: all 0.3s; cursor: default; position: relative; overflow: hidden;
+        }
+        .project-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--gradient); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+        }
+        .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+        .project-card:hover::before { transform: scaleX(1); }
+        .project-icon {
+            width: 44px; height: 44px; border-radius: 10px; background: var(--accent-light);
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
+            margin-bottom: 16px;
+        }
+        .project-title { font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+        .project-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .project-tag {
+            font-size: 11px; padding: 3px 10px; border-radius: 10px;
+            background: var(--accent-light); color: var(--accent); font-weight: 500;
+        }
+
+        /* ===== 技能 ===== */
+        .skills-group { margin-bottom: 28px; }
+        .skills-group:last-child { margin-bottom: 0; }
+        .skills-group-title {
+            font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .skills-group-title svg { width: 18px; height: 18px; fill: var(--accent); }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tag {
+            padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 500;
+            background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); transform: translateY(-2px); }
+
+        /* ===== 教育 ===== */
+        .edu-card {
+            background: var(--bg-card); border-radius: 12px; padding: 24px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;
+        }
+        .edu-info h4 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+        .edu-info p { font-size: 14px; color: var(--text-secondary); }
+        .edu-time { font-size: 13px; color: var(--text-muted); }
+
+        /* ===== 联系 ===== */
+        .contact-section { text-align: center; }
+        .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 32px; }
+        .contact-item {
+            background: var(--bg-card); border-radius: 12px; padding: 28px 20px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            transition: all 0.25s;
+        }
+        .contact-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--accent); }
+        .contact-icon { font-size: 28px; margin-bottom: 12px; }
+        .contact-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .contact-value { font-size: 14px; color: var(--text-primary); font-weight: 600; word-break: break-all; }
+
+        /* ===== 页脚 ===== */
+        footer {
+            text-align: center; padding: 36px 24px; border-top: 1px solid var(--border);
+            color: var(--text-muted); font-size: 13px;
+        }
+        footer p { margin-bottom: 6px; }
+        footer p:last-child { margin-bottom: 0; }
+
+        /* ===== 回到顶部 ===== */
+        .back-top {
+            position: fixed; bottom: 30px; right: 30px; width: 44px; height: 44px;
+            border-radius: 50%; background: var(--accent); color: #fff; border: none;
+            font-size: 18px; cursor: pointer; box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s;
+            z-index: 99; display: flex; align-items: center; justify-content: center;
+        }
+        .back-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .back-top:hover { background: var(--accent-dark); transform: translateY(-2px); }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; position: absolute; top: 64px; left: 0; right: 0;
+                background: var(--bg-card); flex-direction: column; padding: 16px 24px;
+                border-bottom: 1px solid var(--border); gap: 16px;
+            }
+            .nav-links.open { display: flex; }
+            .menu-toggle { display: block; }
+            .hero h1 { font-size: 30px; }
+            .hero .tagline { font-size: 14px; }
+            .about-highlights { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .section { padding: 50px 20px; }
+            .timeline-header { flex-direction: column; }
+        }
+        @media print {
+            .navbar, .hero-social, .back-top, .theme-toggle, .btn-resume, .menu-toggle { display: none !important; }
+            .hero { padding: 40px 24px; background: #1e3a5f !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .section { padding: 30px 24px; page-break-inside: avoid; }
+            .project-card, .timeline-card, .about-card, .contact-item { box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== 导航栏 ===== -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">个人<span>主页</span></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">关于我</a></li>
+            <li><a href="#experience">工作经历</a></li>
+            <li><a href="#projects">项目经历</a></li>
+            <li><a href="#skills">专业技能</a></li>
+            <li><a href="#education">教育经历</a></li>
+            <li><a href="#contact">联系方式</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="theme-toggle" id="themeToggle" title="切换暗色模式">🌙</button>
+            <button class="btn-resume" onclick="window.print()">下载简历</button>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-avatar">👤</div>
+        <h1>你的姓名</h1>
+        <div class="title">产品经理 · 电信业务方向</div>
+        <p class="tagline">多年IT项目产品经验，熟悉业务中台、H5与后台系统需求设计，擅长复杂业务梳理、跨团队项目协调与线上问题排查，主导多套系统迁移与重构项目平稳落地。</p>
+        <div class="hero-social">
+            <a href="mailto:your@email.com">📧 邮箱</a>
+            <a href="https://github.com/yourname" target="_blank" rel="noopener">💻 GitHub</a>
+            <a href="#contact">📱 联系我</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 关于我 ===== -->
+<section class="section" id="about">
+    <h2 class="section-title">关于我</h2>
+    <p class="section-subtitle">一句话了解我的核心能力与定位</p>
+    <div class="about-card">
+        <p>我是一名专注于B端与中台系统的产品经理，拥有电信行业外包项目经验，深度参与微店H5重构、后台系统迁移、订单链路改造、营销活动等核心项目。</p>
+        <p>擅长从复杂业务中抽象需求，输出清晰的产品方案与需求文档；具备接口、数据库基础认知，能与开发、测试、运维高效协作，推动项目从需求到上线全流程落地。</p>
+        <p>工作风格务实细致，重视线上质量与用户体验，善于在多团队协同中识别风险、推进问题闭环。</p>
+        <div class="about-highlights">
+            <div class="highlight-item">
+                <div class="highlight-num">3+</div>
+                <div class="highlight-label">年产品经验</div>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-num">10+</div>
+                <div class="highlight-label">主导项目</div>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-num">5+</div>
+                <div class="highlight-label">跨团队协作</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 工作经历 ===== -->
+<section class="section" id="experience">
+    <h2 class="section-title">工作经历</h2>
+    <p class="section-subtitle">我的职业成长轨迹</p>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <div class="timeline-header">
+                    <div class="timeline-role">产品经理</div>
+                    <div class="timeline-time">20XX.XX - 至今</div>
+                </div>
+                <div class="timeline-company">电信外包项目 · 业务中台方向</div>
+                <ul>
+                    <li>负责电信微店H5页面重构、后台系统迁移、订单与营销活动相关产品设计</li>
+                    <li>对接开发、测试、业务方，完成需求评审、原型设计、问题跟进与上线保障</li>
+                    <li>参与机房迁移、接口改造、数据同步等项目，协调多团队确保平稳割接</li>
+                    <li>梳理新旧系统业务差异，输出迁移方案与需求文档，推动系统能力升级</li>
+                </ul>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <div class="timeline-header">
+                    <div class="timeline-role">产品助理 / 需求分析师</div>
+                    <div class="timeline-time">20XX.XX - 20XX.XX</div>
+                </div>
+                <div class="timeline-company">XX科技有限公司</div>
+                <ul>
+                    <li>协助产品经理完成需求调研、文档撰写、原型设计与项目跟进</li>
+                    <li>参与后台管理系统功能迭代，负责需求梳理与测试用例评审</li>
+                    <li>跟踪线上问题，协调开发定位修复，输出问题复盘总结</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 项目经历 ===== -->
+<section class="section" id="projects">
+    <h2 class="section-title">项目经历</h2>
+    <p class="section-subtitle">我主导与深度参与的核心项目</p>
+    <div class="projects-grid">
+        <div class="project-card">
+            <div class="project-icon">🔄</div>
+            <div class="project-title">电信微店后台系统迁移项目</div>
+            <p class="project-desc">负责新旧系统业务梳理与迁移方案设计，协调开发、运维、业务多团队完成NAS、服务实例、地址库迁移，解决订单与接口日志异常，保障系统零故障平稳割接。</p>
+            <div class="project-tags">
+                <span class="project-tag">系统迁移</span>
+                <span class="project-tag">多团队协同</span>
+                <span class="project-tag">风险管控</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-icon">📱</div>
+            <div class="project-title">微店H5页面重构项目</div>
+            <p class="project-desc">主导H5端页面重构需求设计，梳理用户操作路径，优化页面交互与加载体验，对接前端与后端完成接口联调，提升用户转化率与页面可用性。</p>
+            <div class="project-tags">
+                <span class="project-tag">H5重构</span>
+                <span class="project-tag">交互设计</span>
+                <span class="project-tag">用户体验</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-icon">📦</div>
+            <div class="project-title">订单链路改造项目</div>
+            <p class="project-desc">参与订单全链路需求梳理与改造，对接支付、库存、物流等模块，优化订单状态流转逻辑，输出需求文档与流程图，保障订单数据一致性与系统稳定性。</p>
+            <div class="project-tags">
+                <span class="project-tag">订单系统</span>
+                <span class="project-tag">链路改造</span>
+                <span class="project-tag">数据一致性</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-icon">🎯</div>
+            <div class="project-title">营销活动平台建设</div>
+            <p class="project-desc">负责营销活动相关产品设计，支持优惠券、满减、限时折扣等多种活动类型，梳理活动配置流程与规则引擎，提升运营人员活动配置效率。</p>
+            <div class="project-tags">
+                <span class="project-tag">营销活动</span>
+                <span class="project-tag">规则引擎</span>
+                <span class="project-tag">运营效率</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 专业技能 ===== -->
+<section class="section" id="skills">
+    <h2 class="section-title">专业技能</h2>
+    <p class="section-subtitle">我的能力矩阵</p>
+    <div class="skills-group">
+        <div class="skills-group-title">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            产品能力
+        </div>
+        <div class="skill-tags">
+            <span class="skill-tag">需求分析</span>
+            <span class="skill-tag">原型设计</span>
+            <span class="skill-tag">产品文档</span>
+            <span class="skill-tag">业务梳理</span>
+            <span class="skill-tag">项目管理</span>
+            <span class="skill-tag">跨团队沟通</span>
+            <span class="skill-tag">上线保障</span>
+            <span class="skill-tag">问题排查</span>
+        </div>
+    </div>
+    <div class="skills-group">
+        <div class="skills-group-title">
+            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            工具技能
+        </div>
+        <div class="skill-tags">
+            <span class="skill-tag">Axure</span>
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">XMind</span>
+            <span class="skill-tag">Visio</span>
+            <span class="skill-tag">Jira</span>
+            <span class="skill-tag">Confluence</span>
+            <span class="skill-tag">Postman</span>
+        </div>
+    </div>
+    <div class="skills-group">
+        <div class="skills-group-title">
+            <svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+            技术基础
+        </div>
+        <div class="skill-tags">
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">接口调试</span>
+            <span class="skill-tag">HTTP协议</span>
+            <span class="skill-tag">数据库基础</span>
+            <span class="skill-tag">Linux常用命令</span>
+            <span class="skill-tag">日志分析</span>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 教育经历 ===== -->
+<section class="section" id="education">
+    <h2 class="section-title">教育经历</h2>
+    <p class="section-subtitle">我的学习背景</p>
+    <div class="edu-card">
+        <div class="edu-info">
+            <h4>XX大学 · 计算机相关专业（函授本科）</h4>
+            <p>全日制大专学历，持续进修本科学历中</p>
+        </div>
+        <div class="edu-time">在读</div>
+    </div>
+</section>
+
+<!-- ===== 联系方式 ===== -->
+<section class="section contact-section" id="contact">
+    <h2 class="section-title" style="justify-content: center;">联系方式</h2>
+    <p class="section-subtitle" style="padding-left: 0;">欢迎与我交流合作机会</p>
+    <div class="contact-grid">
+        <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div class="contact-label">邮箱</div>
+            <div class="contact-value">your@email.com</div>
+        </div>
+        <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div class="contact-label">电话</div>
+            <div class="contact-value">138-XXXX-XXXX</div>
+        </div>
+        <div class="contact-item">
+            <div class="contact-icon">💻</div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">github.com/yourname</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 页脚 ===== -->
+<footer>
+    <p>© 2026 个人主页 · 用代码记录职业成长</p>
+    <p>本网站为个人简历展示页，所有项目信息已脱敏处理</p>
+</footer>
+
+<!-- ===== 回到顶部 ===== -->
+<button class="back-top" id="backTop" title="回到顶部">↑</button>
+
+<script>
+    // 暗色模式切换
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        html.setAttribute('data-theme', 'dark');
+        themeToggle.textContent = '☀️';
+    }
+    themeToggle.addEventListener('click', () => {
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            html.removeAttribute('data-theme');
+            themeToggle.textContent = '🌙';
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '☀️';
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    // 移动端菜单
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // 回到顶部
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+            backTop.classList.add('show');
+        } else {
+            backTop.classList.remove('show');
+        }
+    });
+    backTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 导航栏滚动效果
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.style.boxShadow = '0 2px 12px rgba(0,0,0,0.08)';
+        } else {
+            navbar.style.boxShadow = 'none';
+        }
+    });
+</script>
+</body>
+</html>
+<!-- （注：内容由AI生成） -->
