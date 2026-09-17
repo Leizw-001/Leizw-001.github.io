@@ -1,0 +1,8 @@
+{
+  "name": "你的姓名",
+  "job": "产品经理 · 电信业务方向",
+  "experience": [
+    { "time": "20XX.XX - 至今", "company": "电信外包项目", "role": "产品经理" },
+    { "time": "20XX.XX - 20XX.XX", "company": "XX科技有限公司", "role": "产品助理" }
+  ]
+}
