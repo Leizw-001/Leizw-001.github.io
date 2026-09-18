@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>简历访客记录看板</title>
+<style>
+  /* ========== 页面整体：浅色奢华风（奶油米白 + 琥珀金），和简历站一致 ========== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    background: #FAF7F0;          /* 奶油米白背景 */
+    color: #2C2A26;               /* 深墨文字 */
+    padding: 32px 20px 60px;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+
+  /* ========== 顶部标题 ========== */
+  .head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+  .head h1 { font-size: 26px; letter-spacing: 1px; }
+  .head h1 b { color: #B8860B; }            /* 琥珀金点缀 */
+  .head .sub { color: #8A8578; font-size: 13px; margin-top: 6px; }
+  .refresh-btn {
+    background: #B8860B; color: #fff; border: none; border-radius: 8px;
+    padding: 10px 22px; font-size: 14px; cursor: pointer; letter-spacing: 1px;
+    transition: opacity .2s;
+  }
+  .refresh-btn:hover { opacity: .85; }
+
+  /* ========== 统计卡片 ========== */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: #fff; border: 1px solid #EAE4D8; border-radius: 14px;
+    padding: 20px 24px; box-shadow: 0 2px 10px rgba(184,134,11,.05);
+  }
+  .card .num { font-size: 34px; font-weight: 700; color: #B8860B; }
+  .card .label { font-size: 13px; color: #8A8578; margin-top: 6px; letter-spacing: 2px; }
+
+  /* ========== 记录表格 ========== */
+  .panel { background: #fff; border: 1px solid #EAE4D8; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 10px rgba(184,134,11,.05); }
+  .panel-head { padding: 16px 24px; border-bottom: 1px solid #F0EBE0; font-size: 15px; letter-spacing: 2px; color: #2C2A26; }
+  .panel-head span { color: #B8860B; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  th, td { padding: 12px 16px; text-align: left; font-size: 13px; }
+  th { background: #F7F3EA; color: #6E6759; font-weight: 600; letter-spacing: 1px; border-bottom: 1px solid #EAE4D8; }
+  td { border-bottom: 1px solid #F5F1E7; color: #3A3731; word-break: break-all; }
+  tr:last-child td { border-bottom: none; }
+  .ip { font-family: Consolas, monospace; color: #2C2A26; }
+  .src-tag { display: inline-block; background: #F7F3EA; color: #8A6D1F; border-radius: 6px; padding: 3px 10px; font-size: 12px; }
+  .type-tag { display: inline-block; border-radius: 6px; padding: 3px 10px; font-size: 12px; font-weight: 600; }
+  .type-visit { background: #F3EFE2; color: #8A6D1F; }    /* 访问：金色 */
+  .type-contact { background: #EAF1EC; color: #2F7A4F; }  /* 联系：绿色 */
+  .ua { color: #8A8578; font-size: 12px; }
+  .empty { padding: 48px 24px; text-align: center; color: #8A8578; font-size: 14px; }
+  .empty b { color: #B8860B; }
+
+  /* ========== 底部说明 ========== */
+  .foot { margin-top: 18px; font-size: 12px; color: #A8A294; text-align: center; line-height: 1.8; }
+
+  /* ========== 密码锁遮罩 ========== */
+  .lock {
+    position: fixed; inset: 0; background: rgba(44,42,38,.88);
+    display: flex; align-items: center; justify-content: center; z-index: 999;
+  }
+  .lock.hidden { display: none; }
+  .lock-box {
+    background: #FAF7F0; border: 1px solid #D9CDB4; border-radius: 16px;
+    padding: 36px 40px; width: 320px; text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  }
+  .lock-box h2 { font-size: 20px; letter-spacing: 4px; color: #2C2A26; margin-bottom: 6px; }
+  .lock-box .lock-sub { font-size: 12px; color: #8A8578; margin-bottom: 22px; }
+  .lock-box input {
+    width: 100%; padding: 12px 14px; font-size: 15px; letter-spacing: 2px;
+    border: 1px solid #D9CDB4; border-radius: 10px; background: #fff;
+    outline: none; text-align: center; box-sizing: border-box;
+  }
+  .lock-box input:focus { border-color: #B8860B; }
+  .lock-box button {
+    width: 100%; margin-top: 14px; padding: 12px; font-size: 15px; letter-spacing: 4px;
+    background: #B8860B; color: #fff; border: none; border-radius: 10px; cursor: pointer;
+  }
+  .lock-box button:hover { opacity: .88; }
+  .lock-err { color: #B8402F; font-size: 13px; margin-top: 12px; min-height: 18px; }
+
+  /* 窄屏：表格列调整 */
+  @media (max-width: 640px) {
+    .cards { grid-template-columns: 1fr 1fr; }
+    th:nth-child(5), td:nth-child(5) { display: none; }  /* 手机上隐藏设备列，更清爽 */
+    th, td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== 访问口令遮罩（输对密码才显示看板内容） ========== -->
+<div class="lock" id="lock">
+  <div class="lock-box">
+    <h2>🔒 访问口令</h2>
+    <div class="lock-sub">此看板仅限本人查看，请输入口令</div>
+    <input type="password" id="lockInput" placeholder="请输入口令" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">进 入</button>
+    <div class="lock-err" id="lockErr"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <h1>简历<b>访客记录看板</b></h1>
+      <div class="sub" id="updateTime">加载中…</div>
+    </div>
+    <button class="refresh-btn" onclick="loadData()">刷新数据</button>
+  </div>
+
+  <!-- 统计卡片 -->
+  <div class="cards">
+    <div class="card"><div class="num" id="statVisit">-</div><div class="label">访问次数（10分钟去重）</div></div>
+    <div class="card"><div class="num" id="statContact">-</div><div class="label">联系我次数</div></div>
+    <div class="card"><div class="num" id="statTotal">-</div><div class="label">累计记录（最近100条内）</div></div>
+    <div class="card"><div class="num" id="statToday">-</div><div class="label">今天记录</div></div>
+  </div>
+
+  <!-- 记录表格 -->
+  <div class="panel">
+    <div class="panel-head">最近记录（IP 已打码 · 最多显示 100 条）</div>
+    <table>
+      <colgroup>
+        <col style="width:20%"><col style="width:15%"><col style="width:10%"><col style="width:15%"><col style="width:40%">
+      </colgroup>
+      <thead>
+        <tr><th>时间</th><th>IP 地址</th><th>类型</th><th>来源</th><th>设备信息</th></tr>
+      </thead>
+      <tbody id="tbody">
+        <tr><td colspan="5" class="empty">正在读取记录…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="foot">
+    数据存于腾讯云 CloudBase（visits 集合），本页面只做展示，IP 已自动打码。<br>
+    「访问」= 打开简历页面（同 IP 10 分钟内去重）；「联系」= 点击"联系我"按钮。<br>
+    如显示"读取失败"，请确认云函数已部署最新版本。
+  </div>
+</div>
+
+<script>
+/* ================================================================
+ * 记录看板：双击本文件即可打开，自动读取腾讯云里的点击记录。
+ * 原理：调用云函数的 GET 接口（和网站上报用的是同一个云函数）。
+ * ================================================================ */
+
+// 云函数接口地址（和 main.js 里 REPORT_API 一致，只多了 GET 读取能力）
+var API = 'https://resume-visits-d6gueawtg12fcba29-1490832838.ap-shanghai.app.tcloudbase.com/visits-record';
+
+// loadData：拉取记录并画到表格里
+async function loadData() {
+  var tbody = document.getElementById('tbody');
+  var update = document.getElementById('updateTime');
+
+  // 1. 先显示"加载中"
+  tbody.innerHTML = '<tr><td colspan="5" class="empty">正在读取记录…</td></tr>';
+  update.textContent = '更新于 ' + nowStr();
+
+  try {
+    // 2. 请求云函数 GET 接口
+    var res = await fetch(API);
+    var data = await res.json();
+
+    if (!data.ok) { throw new Error(data.message || '接口异常'); }
+
+    var list = data.list || [];
+    // 3. 更新统计卡片（访问/联系/累计/今天）
+    document.getElementById('statVisit').textContent = data.visitCount || 0;
+    document.getElementById('statContact').textContent = data.contactCount || 0;
+    document.getElementById('statTotal').textContent = data.total;
+    document.getElementById('statToday').textContent = countToday(list);
+
+    // 4. 画表格
+    if (list.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="empty">还没有记录。<br>打开简历网站访问一次、或点一次「联系我」试试。</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = list.map(function (r) {
+      var tag = r.type === 'visit'
+        ? '<span class="type-tag type-visit">访问</span>'
+        : '<span class="type-tag type-contact">联系</span>';
+      return '<tr>' +
+        '<td>' + esc(r.time) + '</td>' +
+        '<td class="ip">' + esc(r.ip) + '</td>' +
+        '<td>' + tag + '</td>' +
+        '<td><span class="src-tag">' + esc(r.source) + '</span></td>' +
+        '<td class="ua">' + esc(shortUa(r.ua)) + '</td>' +
+      '</tr>';
+    }).join('');
+  } catch (err) {
+    // 5. 失败提示（最常见：云函数还没部署带 GET 的最新版）
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">读取失败：' + esc(err.message) + '<br><b>请先部署云函数最新版</b>（用新的 visits-record-上传.zip 重新上传部署一次）</td></tr>';
+  }
+}
+
+// countToday：统计"今天"的记录条数（按记录里的 time 字符串开头判断日期）
+function countToday(list) {
+  var d = new Date();
+  var today = d.getFullYear() + '/' + pad(d.getMonth() + 1) + '/' + pad(d.getDate());
+  var n = 0;
+  for (var i = 0; i < list.length; i++) {
+    if ((list[i].time || '').indexOf(today) === 0) { n++; }
+  }
+  return n;
+}
+
+// shortUa：把长长的一串设备信息截短成"浏览器 系统"的样子
+function shortUa(ua) {
+  var s = String(ua || '');
+  // 提取系统
+  var os = '';
+  if (s.indexOf('Windows') >= 0) os = 'Windows';
+  else if (s.indexOf('iPhone') >= 0) os = 'iPhone';
+  else if (s.indexOf('Android') >= 0) os = 'Android';
+  else if (s.indexOf('Mac OS') >= 0) os = 'Mac';
+  else if (s.indexOf('Linux') >= 0) os = 'Linux';
+  // 提取浏览器
+  var br = '';
+  if (s.indexOf('Edg/') >= 0) br = 'Edge';
+  else if (s.indexOf('Chrome/') >= 0) br = 'Chrome';
+  else if (s.indexOf('Firefox/') >= 0) br = 'Firefox';
+  else if (s.indexOf('Safari/') >= 0) br = 'Safari';
+  else if (s.indexOf('MicroMessenger') >= 0) br = '微信内置浏览器';
+  return (os || '未知系统') + ' · ' + (br || '其他浏览器');
+}
+
+// 小工具
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+function nowStr() {
+  var d = new Date();
+  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
+         pad(d.getHours()) + ':' + pad(d.getMinutes());
+}
+
+// 打开页面就自动加载一次
+// 注意：有密码锁，必须解锁后才加载数据（否则未授权访问也能看到记录）
+// loadData();
+
+/* ================================================================
+ * 密码锁逻辑
+ * 说明：口令以简单编码存储（防君子不防小人，网页端无法做到绝对安全），
+ *       输对后本机记住（localStorage），刷新/再次打开不用重复输入。
+ * ================================================================ */
+// 口令：leizw2026（编码存储，避免源码里一眼看到明文）
+var PASS_CODE = 'bGVpencyMDI2Ng=='; // btoa('leizw2026')
+
+// 页面打开时：如果本机已通过验证，直接隐藏遮罩并加载数据
+(function () {
+  if (localStorage.getItem('resume_dash_ok') === '1') {
+    document.getElementById('lock').classList.add('hidden');
+    loadData();
+  }
+})();
+
+// unlock：点击"进入"时校验口令
+function unlock() {
+  var input = document.getElementById('lockInput').value;
+  var errBox = document.getElementById('lockErr');
+  // 把输入的密码也编码后对比（和存储的编码一致才算对）
+  var encoded = btoa(unescape(encodeURIComponent(input)));
+  if (encoded === PASS_CODE) {
+    localStorage.setItem('resume_dash_ok', '1');
+    document.getElementById('lock').classList.add('hidden');
+    loadData();
+  } else {
+    errBox.textContent = '口令错误，请重试';
+    document.getElementById('lockInput').value = '';
+    document.getElementById('lockInput').focus();
+  }
+}
+</script>
+</body>
+</html>
