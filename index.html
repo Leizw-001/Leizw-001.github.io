@@ -291,6 +291,44 @@ var _hmt = _hmt || [];
         .back-top.show { opacity: 1; visibility: visible; transform: translateY(0); } /* 滚动到一定距离后由 JS 加上 show 类，按钮出现 */
         .back-top:hover { background: var(--accent-dark); transform: translateY(-2px); }
 
+        /* ===== 联系我弹窗 ===== */
+        .modal-overlay { /* 灰色半透明遮罩层：盖住整个屏幕 */
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200;
+            background: rgba(15, 23, 42, 0.6);
+            display: none; align-items: center; justify-content: center; /* 让弹窗居中 */
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; } /* 加上 show 类才显示（由 main.js 控制） */
+        .modal-box { /* 弹窗本体：白色圆角卡片 */
+            width: 100%; max-width: 420px; background: var(--bg-card);
+            border-radius: 16px; padding: 30px 26px 22px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 1px solid var(--border);
+            position: relative; text-align: center;
+        }
+        .modal-close { /* 右上角的关闭按钮 × */
+            position: absolute; top: 12px; right: 14px; background: none; border: none;
+            font-size: 22px; color: var(--text-muted); cursor: pointer; line-height: 1;
+        }
+        .modal-close:hover { color: var(--text-primary); }
+        .modal-box h3 { font-size: 20px; margin-bottom: 6px; }
+        .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+        .modal-item { /* 手机号、邮箱各自一行的蓝色浅底条 */
+            display: flex; align-items: center; gap: 12px;
+            background: var(--accent-light); border-radius: 12px; padding: 14px 16px;
+            margin-bottom: 12px; text-align: left;
+        }
+        .modal-icon { font-size: 22px; }
+        .modal-info { flex: 1; }
+        .modal-label { font-size: 11px; color: var(--text-muted); }
+        .modal-value { font-size: 15px; font-weight: 700; color: var(--text-primary); word-break: break-all; }
+        .modal-copy { /* 复制按钮 */
+            padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--accent); font-size: 12px; cursor: pointer;
+        }
+        .modal-copy:hover { border-color: var(--accent); }
+        .modal-note { font-size: 11px; color: var(--text-muted); margin-top: 14px; }
+        .contact-cta { cursor: pointer; } /* 底部"获取联系方式"卡片：鼠标变小手，提示可点击 */
+
         /* ===== 响应式：屏幕小于 768px（手机）时，把多列改成单列 ===== */
         @media (max-width: 768px) {
             .nav-links {
@@ -349,9 +387,8 @@ var _hmt = _hmt || [];
             <div class="title">产品经理 · B端中台 / C端电商 / AI产品 / 运营商生态</div>
             <p class="tagline">4年产品经理经验，覆盖B端中台/SaaS、C端电商、AI产品、运营商生态等多领域，具备从0-1搭建产品的全流程操盘能力；深耕产品设计核心，精通需求挖掘与数据分析，熟悉AI、三维仿真等前沿技术在产品中的应用，曾主导多个核心项目落地。</p>
             <div class="hero-social">
-                <a href="tel:15222292837">📞 15222292837</a> <!-- tel：点击直接拨打（电脑上会弹出提示） -->
-                <a href="mailto:Lzw15222292837@163.com">📧 邮箱</a> <!-- mailto：点击直接打开邮件软件 -->
-                <a href="#contact">📱 联系我</a>
+                <!-- 点击打开"联系我"弹窗（手机号和邮箱在弹窗里展示，不在网页源码中，防止被爬虫抓取） -->
+                <a href="javascript:void(0);" onclick="openContactModal('顶部按钮')">📱 联系我</a>
             </div>
         </div>
     </section>
@@ -523,16 +560,12 @@ var _hmt = _hmt || [];
     <section class="section contact-section" id="contact">
         <h2 class="section-title" style="justify-content: center;">联系方式</h2>
         <p class="section-subtitle" style="padding-left: 0;">欢迎与我交流合作机会</p>
-        <div class="contact-grid">
-            <div class="contact-item">
-                <div class="contact-icon">📧</div>
-                <div class="contact-label">邮箱</div>
-                <div class="contact-value">Lzw15222292837@163.com</div>
-            </div>
-            <div class="contact-item">
+        <div class="contact-grid" style="grid-template-columns: 2fr 1fr;">
+            <!-- 点击这张卡片，弹窗显示手机号和邮箱，并向后端记录本次点击 -->
+            <div class="contact-item contact-cta" onclick="openContactModal('底部按钮')">
                 <div class="contact-icon">📱</div>
-                <div class="contact-label">电话</div>
-                <div class="contact-value">152-2229-2837</div>
+                <div class="contact-label">想和我聊聊？</div>
+                <div class="contact-value">点击获取手机号和邮箱</div>
             </div>
             <div class="contact-item">
                 <div class="contact-icon">📍</div>
@@ -550,6 +583,34 @@ var _hmt = _hmt || [];
 
     <!-- ===== 回到顶部按钮（平时隐藏，滚动后由 JS 显示） ===== -->
     <button class="back-top" id="backTop" title="回到顶部">↑</button>
+
+    <!-- ===== 联系我弹窗（点击"联系我"后显示，平时隐藏） =====
+         手机号和邮箱的内容由 main.js 填进来（main.js 里的 PHONE / EMAIL），
+         页面源码里不写，防止爬虫直接抓取 -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeContactModal()" title="关闭">×</button>
+            <h3>联系我</h3>
+            <p class="modal-sub">感谢关注，以下是我的联系方式</p>
+            <div class="modal-item">
+                <span class="modal-icon">📞</span>
+                <div class="modal-info">
+                    <div class="modal-label">电话</div>
+                    <div class="modal-value" id="modalPhone"></div>
+                </div>
+                <button class="modal-copy" onclick="copyText(this)">复制</button>
+            </div>
+            <div class="modal-item">
+                <span class="modal-icon">📧</span>
+                <div class="modal-info">
+                    <div class="modal-label">邮箱</div>
+                    <div class="modal-value" id="modalEmail"></div>
+                </div>
+                <button class="modal-copy" onclick="copyText(this)">复制</button>
+            </div>
+            <p class="modal-note">本次点击将记录匿名访问信息（IP / 时间），仅用于统计意向访客</p>
+        </div>
+    </div>
 
     <!-- ===== 页面自带的交互脚本（JS）：暗色模式、手机菜单、回到顶部、导航栏阴影 ===== -->
     <script>

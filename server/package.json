@@ -1,0 +1,13 @@
+{
+  "name": "resume-server",
+  "version": "1.0.0",
+  "description": "简历网站后端：记录点击联系我的访客信息",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  }
+}
