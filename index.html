@@ -27,7 +27,7 @@ var _hmt = _hmt || [];
 })();
 </script>
 
-    <meta name="description" content="雷增伟个人简历网站，4年产品经理经验，覆盖B端中台/SaaS、C端电商、AI产品、运营商生态等多领域，主导中国电信微店与京东小程序生态建设、小炫AI、智标宝等核心项目。"> <!-- 给搜索引擎看的简介 -->
+    <meta name="description" content="雷增伟个人简历网站，4年产品经理经验，覆盖B端中台/SaaS、C端电商、AI产品、运营商生态等多领域，主导运营商微店与京东小程序生态建设、小炫AI、智标宝等核心项目。"> <!-- 给搜索引擎看的简介 -->
     <meta name="keywords" content="产品经理,个人简历,雷增伟,B端中台,AI产品,运营商生态"> <!-- 给搜索引擎看的关键词 -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>"> <!-- 浏览器标签页上的小图标（公文包） -->
 
@@ -232,6 +232,43 @@ var _hmt = _hmt || [];
             font-size: 11px; padding: 3px 10px; border-radius: 10px;
             background: var(--accent-light); color: var(--accent); font-weight: 500;
         }
+        /* ===== 项目卡片：升级版元素 ===== */
+        .project-top { /* 卡片顶部一行：左边图标，右边角色标签 */
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 14px;
+        }
+        .project-top .project-icon { margin-bottom: 0; } /* 图标在这一行里不再往下撑 */
+        .project-role { /* 角色标签：项目负责人 / 核心设计 */
+            font-size: 11px; color: var(--accent); background: var(--accent-light);
+            padding: 3px 10px; border-radius: 10px; font-weight: 600; white-space: nowrap;
+        }
+        .project-position { /* 一句话定位：这个项目是干什么的 */
+            font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7;
+        }
+        .project-metrics { /* 数据成果徽章行：3 个小方块并排 */
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px;
+        }
+        .project-metric { /* 单个数据徽章 */
+            background: var(--accent-light); border-radius: 10px; padding: 10px 6px; text-align: center;
+        }
+        .project-metric b { /* 数字（如 +50%） */
+            display: block; font-size: 16px; color: var(--accent); font-weight: 800;
+        }
+        .project-metric span { /* 数字说明（如 线上覆盖用户量） */
+            display: block; font-size: 10px; color: var(--text-muted); margin-top: 2px;
+        }
+        .project-points { /* 洞察/方案/结果要点列表 */
+            list-style: none; padding: 0; margin: 0 0 14px;
+        }
+        .project-point { /* 每一条要点：左边小标签，右边文字 */
+            position: relative; padding-left: 46px; font-size: 12.5px;
+            color: var(--text-secondary); line-height: 1.7; margin-bottom: 8px;
+        }
+        .project-point:last-child { margin-bottom: 0; }
+        .point-step { /* 要点前面的小标签（洞察/方案/结果） */
+            position: absolute; left: 0; top: 0; font-size: 10px; font-weight: 700;
+            color: #fff; background: var(--accent); border-radius: 6px; padding: 2px 8px;
+        }
 
         /* ===== 专业技能 ===== */
         .skills-group { margin-bottom: 28px; }
@@ -423,7 +460,7 @@ var _hmt = _hmt || [];
         <h2 class="section-title">工作经历</h2>
         <p class="section-subtitle">我的职业成长轨迹</p>
         <div class="timeline">
-            <!-- 第一段经历：中国电信 -->
+            <!-- 第一段经历：运营商 -->
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-card">
@@ -431,14 +468,15 @@ var _hmt = _hmt || [];
                         <div class="timeline-role">高级产品经理</div>
                         <div class="timeline-time">2024.09 - 至今</div>
                     </div>
-                    <div class="timeline-company">中国电信股份有限公司</div>
+                    <div class="timeline-company">广东亿讯科技有限公司</div>
                     <ul>
-                        <li>主导核心用户触点矩阵建设，统筹"微店小程序""京东小程序"等生态合作入口的产品规划与运营体系搭建，构建线上线下融合的智慧服务生态，确立运营商行业生态化运营标杆</li>
-                        <li>联动市场、渠道等部门优化运营策略，通过用户行为数据分析迭代产品功能，提升线上服务转化率与用户留存率</li>
+                        <li>主导线上用户触点矩阵建设，统筹"微信小程序""京东小程序"等生态合作入口的产品规划与运营体系搭建</li>
+                        <li>构建线上线下融合的智慧服务生态，线上覆盖用户量与咨询转化率显著提升，确立运营商行业生态化运营标杆</li>
+                        <li>基于用户行为数据驱动功能迭代，联动市场、渠道等部门优化运营策略</li>
                     </ul>
                 </div>
             </div>
-            <!-- 第二段经历：南京炫佳 -->
+            <!-- 第二段经历：广电新媒体 -->
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-card">
@@ -446,15 +484,15 @@ var _hmt = _hmt || [];
                         <div class="timeline-role">高级产品经理</div>
                         <div class="timeline-time">2023.07 - 2024.08</div>
                     </div>
-                    <div class="timeline-company">南京炫佳网络科技有限公司</div>
+                    <div class="timeline-company">南京炫佳科技有限公司</div>
                     <ul>
-                        <li>负责产品全生命周期管理，涵盖需求分析、场景拆解、优先级制定、原型设计、文档输出及研发落地推动</li>
-                        <li>主导AI类产品"小炫AI（多模态内容生成平台）"与"智标宝（智能标书生成系统）"的核心设计与落地，形成标准化工作流与企业级解决方案</li>
-                        <li>对接研发、测试团队完成需求宣讲与评审，确保产品功能按预期落地，同步输出产品操作手册与验收标准</li>
+                        <li>负责产品全生命周期管理：需求分析、场景拆解、优先级制定、原型设计、文档输出到研发落地全流程</li>
+                        <li>主导AI类产品"小炫AI（多模态内容生成平台）"与"智标宝（智能标书生成系统）"从0到1的核心设计与落地，形成标准化工作流与企业级解决方案</li>
+                        <li>统筹研发、测试团队完成需求宣讲与评审，输出产品操作手册与验收标准，确保产品按预期交付</li>
                     </ul>
                 </div>
             </div>
-            <!-- 第三段经历：中电福富 -->
+            <!-- 第三段经历：通信软件服务商 -->
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-card">

@@ -1,0 +1,10 @@
+{
+  "name": "resume-site",
+  "version": "1.0.0",
+  "description": "简历网站（GitHub Pages 静态站 + Vercel 后端接口）",
+  "private": true,
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  }
+}

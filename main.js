@@ -36,26 +36,53 @@ async function loadData() {
 }
 
 // renderProjects：渲染项目卡片。
-// projects 是数组（多个项目），这个函数把它变成一张张卡片的 HTML，填进空容器
+// projects 是数组（多个项目），这个函数把每个项目变成一张卡片，
+// 卡片包含：角色标签、一句话定位、3 个数据成果徽章、洞察→方案→结果要点
 function renderProjects(projects) {
   // 找到页面里 id 叫 projectsList 的空容器（在 index.html 的项目经历区）
   const box = document.getElementById('projectsList');
 
-  // .map() = 对数组里的每一项都执行一遍括号里的函数，返回拼好的所有卡片
-  // .join('') = 把多段 HTML 文字连成一整串
   box.innerHTML = projects.map(function (p) {
+    // ① 数据成果徽章行：把 metrics 数组（如 [{value:"+50%",label:"覆盖用户量"}...]）变成 3 个小方块
+    const metricsHtml = (p.metrics || []).map(function (m) {
+      return (
+        '<div class="project-metric">' +
+          '<b>' + esc(m.value) + '</b>' +
+          '<span>' + esc(m.label) + '</span>' +
+        '</div>'
+      );
+    }).join('');
+
+    // ② 洞察→方案→结果要点：points 数组的第 1、2、3 条，前面自动加上小标签
+    const stepNames = ['洞察', '方案', '结果']; // 前三条的固定名字
+    const pointsHtml = (p.points || []).map(function (pt, i) {
+      const step = stepNames[i] || ('要点' + (i + 1)); // 超过 3 条就用"要点4"这种名字
+      return (
+        '<li class="project-point">' +
+          '<span class="point-step">' + step + '</span>' + esc(pt) +
+        '</li>'
+      );
+    }).join('');
+
+    // ③ 拼成一张完整卡片
     return (
       '<div class="project-card">' +
-        '<div class="project-icon">' + p.icon + '</div>' +
+        '<div class="project-top">' + // 最上面一行：左边图标，右边角色标签
+          '<div class="project-icon">' + p.icon + '</div>' +
+          (p.role ? '<span class="project-role">' + esc(p.role) + '</span>' : '') +
+        '</div>' +
         '<div class="project-title">' + esc(p.title) + '</div>' +
-        '<p class="project-desc">' + esc(p.desc) + '</p>' +
+        '<p class="project-position">' + esc(p.position) + '</p>' +
+        '<div class="project-metrics">' + metricsHtml + '</div>' +
+        '<ul class="project-points">' + pointsHtml + '</ul>' +
         '<div class="project-tags">' +
           p.tags.map(function (t) { return '<span class="project-tag">' + esc(t) + '</span>'; }).join('') +
         '</div>' +
       '</div>'
     );
   }).join('');
-  // 上面的 p.icon / p.title / p.desc / p.tags，就是 data.json 里每个项目的字段
+  // 上面的 p.icon / p.title / p.role / p.position / p.metrics / p.points / p.tags，
+  // 都是 data.json 里每个项目的字段
 }
 
 // esc：转义函数（安全措施）。
@@ -76,7 +103,7 @@ const EMAIL = 'Lzw15222292837@163.com';
 
 // REPORT_API 是"记录点击"的后端接口地址。
 // 本地测试：http://localhost:3000（先运行 server 文件夹里的 node server.js）
-// 以后部署到服务器后，把这里换成你部署好的公网地址即可。
+// 以后部署到公网后，把这里换成你的公网地址即可。
 const REPORT_API = 'http://localhost:3000/api/visit';
 
 // openContactModal：打开弹窗（点击"联系我"按钮时触发）
