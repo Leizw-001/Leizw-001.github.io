@@ -61,30 +61,6 @@ var _hmt = _hmt || [];
             --gradient: linear-gradient(165deg, #1A160F 0%, #12100C 55%, #0D0B08 100%);
             --glow: radial-gradient(circle at 70% 20%, rgba(201, 162, 39, 0.14) 0%, transparent 55%);
         }
-        /* 浅色主题（点击月亮按钮切换） */
-        [data-theme="light"] {
-            --bg: #FAF7F0;
-            --bg2: #F4EEE2;
-            --card: #FFFFFF;
-            --card-hover: #FFFDF7;
-            --border: #E8E1D3;
-            --text: #1F1D1A;
-            --text2: #5C564C;
-            --muted: #9B9487;
-            --gold: #B8860B;
-            --gold-light: #D4A93A;
-            --gold-dark: #966E08;
-            --gold-soft: rgba(184, 134, 11, 0.1);
-            --teal: #3E6B5E;
-            --steel: #7A8A63;
-            --blue: #5B86B8;
-            --orange: #D98E3D;
-            --green: #6E9E6A;
-            --shadow: 0 2px 10px rgba(31, 29, 26, 0.07);
-            --shadow-hover: 0 12px 30px rgba(31, 29, 26, 0.14);
-            --gradient: linear-gradient(165deg, #F7F1E3 0%, #F3EBD8 55%, #EEE3CB 100%);
-            --glow: radial-gradient(circle at 70% 20%, rgba(201, 162, 39, 0.12) 0%, transparent 55%);
-        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
@@ -107,7 +83,6 @@ var _hmt = _hmt || [];
             border-bottom: 1px solid var(--border);
             transition: all 0.3s;
         }
-        [data-theme="light"] .navbar { background: rgba(250, 247, 240, 0.88); }
         .nav-container {
             max-width: 1080px; margin: 0 auto; padding: 0 24px;
             display: flex; align-items: center; justify-content: space-between;
@@ -134,12 +109,6 @@ var _hmt = _hmt || [];
         }
         .nav-links a:hover::after { width: 100%; }
         .nav-actions { display: flex; align-items: center; gap: 14px; }
-        .theme-toggle {
-            width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
-            background: transparent; cursor: pointer; display: flex; align-items: center;
-            justify-content: center; font-size: 16px; transition: all 0.2s; color: var(--text);
-        }
-        .theme-toggle:hover { border-color: var(--gold); }
         .btn-resume {
             padding: 9px 20px; border-radius: 10px; background: var(--gold); color: #16130D;
             font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s;
@@ -497,8 +466,8 @@ var _hmt = _hmt || [];
         }
         /* 打印简历：强制浅色，干净可打印 */
         @media print {
-            .navbar, .hero-social, .back-top, .theme-toggle, .btn-resume, .menu-toggle, .hero-visual, .hero-badge { display: none !important; }
-            body, [data-theme] { background: #FFF !important; }
+            .navbar, .hero-social, .back-top, .btn-resume, .menu-toggle, .hero-visual, .hero-badge { display: none !important; }
+            body { background: #FFF !important; }
             .hero { padding: 40px 24px; background: #FFF !important; border-bottom: none !important; color: #1F1D1A !important; }
             .hero-inner { display: block; }
             .hero-text { text-align: left; }
@@ -526,7 +495,6 @@ var _hmt = _hmt || [];
                 <li><a href="#contact">联系方式</a></li>
             </ul>
             <div class="nav-actions"> <!-- 右边：暗色模式按钮 + 下载简历 + 手机菜单按钮 -->
-                <button class="theme-toggle" id="themeToggle" title="切换暗色模式">🌙</button>
                 <button class="btn-resume" onclick="window.print()">下载简历</button> <!-- onclick：点击就调用浏览器打印 -->
                 <button class="menu-toggle" id="menuToggle">☰</button>
             </div>
@@ -723,34 +691,40 @@ var _hmt = _hmt || [];
                     </div>
                 </div>
             </div>
-            <!-- 02 产品工具：分类标签 -->
+            <!-- 02 产品工具：按产品经理工作流分组 -->
             <div class="skill-card">
                 <div class="skill-card-head"><span class="skill-card-num">02</span><h3>产品工具</h3></div>
                 <div class="skill-mini-group">
                     <div class="skill-mini-label">原型设计</div>
-                    <div class="skill-mini-tags"><span class="skill-mini">墨刀</span><span class="skill-mini">Figma 思维</span></div>
+                    <div class="skill-mini-tags"><span class="skill-mini">墨刀</span><span class="skill-mini">Axure</span><span class="skill-mini">Figma</span></div>
                 </div>
                 <div class="skill-mini-group">
                     <div class="skill-mini-label">文档与办公</div>
                     <div class="skill-mini-tags"><span class="skill-mini">Word</span><span class="skill-mini">Excel</span><span class="skill-mini">PPT</span><span class="skill-mini">Visio</span></div>
                 </div>
                 <div class="skill-mini-group">
+                    <div class="skill-mini-label">流程与协作</div>
+                    <div class="skill-mini-tags"><span class="skill-mini">XMind</span><span class="skill-mini">ProcessOn</span><span class="skill-mini">TAPD</span></div>
+                </div>
+                <div class="skill-mini-group">
                     <div class="skill-mini-label">视觉设计</div>
                     <div class="skill-mini-tags"><span class="skill-mini">Photoshop</span><span class="skill-mini">Illustrator</span><span class="skill-mini">AE</span></div>
                 </div>
-                <div class="skill-mini-group">
-                    <div class="skill-mini-label">思维梳理</div>
-                    <div class="skill-mini-tags"><span class="skill-mini">XMind</span></div>
-                </div>
             </div>
-            <!-- 03 技术基础：标签 + 说明 -->
+            <!-- 03 技术基础：按能力方向分组 -->
             <div class="skill-card">
                 <div class="skill-card-head"><span class="skill-card-num">03</span><h3>技术基础</h3></div>
-                <div class="skill-mini-tags">
-                    <span class="skill-mini">AI 应用</span>
-                    <span class="skill-mini">三维仿真</span>
-                    <span class="skill-mini">知识图谱</span>
-                    <span class="skill-mini">用户行为分析</span>
+                <div class="skill-mini-group">
+                    <div class="skill-mini-label">AI 与前沿应用</div>
+                    <div class="skill-mini-tags"><span class="skill-mini">大模型 / AIGC 应用</span><span class="skill-mini">三维仿真</span><span class="skill-mini">知识图谱</span></div>
+                </div>
+                <div class="skill-mini-group">
+                    <div class="skill-mini-label">数据驱动</div>
+                    <div class="skill-mini-tags"><span class="skill-mini">用户行为分析</span><span class="skill-mini">数据埋点</span><span class="skill-mini">BI 数据分析</span></div>
+                </div>
+                <div class="skill-mini-group">
+                    <div class="skill-mini-label">技术理解</div>
+                    <div class="skill-mini-tags"><span class="skill-mini">RPA 自动化</span><span class="skill-mini">低代码平台</span><span class="skill-mini">API 接口</span></div>
                 </div>
                 <p class="skill-tech-note">具备 AI 与前沿技术产品化理解，能够与技术团队高效对话，将技术能力转化为产品价值。</p>
             </div>
@@ -764,9 +738,9 @@ var _hmt = _hmt || [];
         <div class="edu-card">
             <div class="edu-info">
                 <h4>吉林化工学院 · 计算机科学与技术（本科）</h4>
-                <p>全日制本科 · 在读</p>
+                <p>函授本科 · 在读</p>
             </div>
-            <div class="edu-time">2023 - 至今</div>
+            <div class="edu-time">2023 - 2027.07（预计毕业）</div>
         </div>
         <div class="edu-card" style="margin-top: 14px;">
             <div class="edu-info">
@@ -833,29 +807,8 @@ var _hmt = _hmt || [];
         </div>
     </div>
 
-    <!-- ===== 页面自带的交互脚本（JS）：暗色模式、手机菜单、回到顶部、导航栏阴影 ===== -->
+    <!-- ===== 页面自带的交互脚本（JS）：手机菜单、回到顶部、导航栏阴影 ===== -->
     <script>
-        // 暗色模式切换
-        const themeToggle = document.getElementById('themeToggle'); // 找到右上角那个月亮按钮
-        const html = document.documentElement; // 找到网页根元素（html 标签）
-        const savedTheme = localStorage.getItem('theme'); // 从浏览器的小仓库（localStorage）里读上次记住的主题
-        if (savedTheme === 'dark') { // 如果上次是暗色模式，一进来就自动用暗色
-            html.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '☀️'; // 按钮图标换成太阳
-        }
-        themeToggle.addEventListener('click', () => { // 监听点击事件：点了按钮就切换
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                html.removeAttribute('data-theme'); // 去掉暗色，变亮色
-                themeToggle.textContent = '🌙';
-                localStorage.setItem('theme', 'light'); // 记住这次选择
-            } else {
-                html.setAttribute('data-theme', 'dark'); // 加上暗色
-                themeToggle.textContent = '☀️';
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-
         // 手机端菜单：点三横按钮，展开或收起菜单
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
