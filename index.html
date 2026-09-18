@@ -258,7 +258,7 @@ var _hmt = _hmt || [];
         .project-card { animation: cardIn .5s ease both; }
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
         .project-card {
-            background: var(--card); border-radius: 18px; padding: 28px;
+            background: var(--card); border-radius: 18px; padding: 26px;
             border: 1px solid var(--border); box-shadow: var(--shadow);
             transition: all 0.3s; cursor: default; position: relative;
         }
@@ -268,7 +268,10 @@ var _hmt = _hmt || [];
             display: flex; align-items: center; justify-content: center; font-size: 20px;
             margin-bottom: 14px; border: 1px solid rgba(201, 162, 39, 0.25);
         }
-        .project-title { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+        .project-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+        .project-head .project-icon { margin-bottom: 0; flex-shrink: 0; }
+        .project-head .project-title { flex: 1; margin-bottom: 0; }
+        .project-title { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.4; }
         .project-desc { font-size: 13px; color: var(--text2); margin-bottom: 14px; line-height: 1.7; }
         .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
         .project-tag {
@@ -290,16 +293,13 @@ var _hmt = _hmt || [];
         }
         .project-metric b { display: block; font-size: 17px; color: var(--gold); font-weight: 900; }
         .project-metric span { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; }
-        .project-points { list-style: none; padding: 0; margin: 0 0 14px; }
-        .project-point { position: relative; padding-left: 52px; font-size: 13px; color: var(--text2); line-height: 1.75; margin-bottom: 9px; }
-        .project-point:last-child { margin-bottom: 0; }
-        .point-step {
-            position: absolute; left: 0; top: 1px; font-size: 10px; font-weight: 800;
-            color: #fff; background: var(--blue); border-radius: 6px; padding: 2px 9px;
+        .project-points { list-style: none; padding: 0; margin: 0 0 16px; }
+        .project-point { position: relative; padding-left: 16px; font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 8px; }
+        .project-point::before {
+            content: ''; position: absolute; left: 1px; top: 9px;
+            width: 5px; height: 5px; border-radius: 50%; background: var(--gold);
         }
-        .project-point:nth-child(1) .point-step { background: var(--blue); }
-        .project-point:nth-child(2) .point-step { background: var(--orange); }
-        .project-point:nth-child(3) .point-step { background: var(--green); }
+        .project-point:last-child { margin-bottom: 0; }
 
         /* ===== 专业技能：大环形总览 + 三分类卡片 ===== */
         .skills-overview {
