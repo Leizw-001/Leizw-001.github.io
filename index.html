@@ -240,6 +240,22 @@ var _hmt = _hmt || [];
         .timeline-card li:last-child { margin-bottom: 0; }
 
         /* ===== 项目经历 ===== */
+        /* 类型切换栏（按 ToC产品 / ToB产品 / AI产品 / 中台类 分类筛选） */
+        .proj-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+        .proj-tab {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 20px; border-radius: 999px; cursor: pointer;
+            background: var(--card); border: 1px solid var(--border);
+            color: var(--text2); font-size: 14px; font-weight: 700; letter-spacing: 1px;
+            transition: all .25s; font-family: inherit;
+        }
+        .proj-tab:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
+        .proj-tab.active { background: var(--gold); border-color: var(--gold); color: #fff; box-shadow: 0 4px 14px rgba(184,134,11,.25); }
+        .proj-tab .cnt { font-size: 11px; background: var(--gold-soft); color: var(--gold); border-radius: 999px; padding: 1px 9px; font-weight: 800; }
+        .proj-tab.active .cnt { background: rgba(255,255,255,.28); color: #fff; }
+        /* 卡片入场动画：多张卡片依次浮现 */
+        @keyframes cardIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+        .project-card { animation: cardIn .5s ease both; }
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
         .project-card {
             background: var(--card); border-radius: 18px; padding: 28px;
@@ -613,6 +629,9 @@ var _hmt = _hmt || [];
         <p class="section-subtitle">从0-1主导落地的核心项目</p>
         <!-- 注意：这里是“空容器”。4 张项目卡片的内容在 data.json 里，
              由 main.js 读取后自动填进来。id 等于 projectsList 就是给 main.js 认路的门牌号 -->
+        <!-- 类型切换栏（main.js 自动生成按钮：全部 / ToC产品 / ToB产品 / AI产品 / 中台类） -->
+        <div class="proj-tabs" id="projTabs"></div>
+        <!-- 项目卡片区（main.js 按当前选中的类型填充） -->
         <div class="projects-grid" id="projectsList"></div>
     </section>
 
