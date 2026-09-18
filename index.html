@@ -363,15 +363,16 @@ var _hmt = _hmt || [];
             justify-content: center; letter-spacing: 0;
         }
         .skill-card-head h3 { font-size: 16px; font-weight: 800; color: var(--text); letter-spacing: 1px; }
-        .skill-bars { display: flex; flex-direction: column; gap: 14px; }
-        .bar-info { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
-        .bar-info span { color: var(--text2); font-weight: 500; }
-        .bar-info b { color: var(--gold); font-weight: 800; }
-        .bar-track { height: 5px; border-radius: 4px; background: var(--border); overflow: hidden; }
-        .bar-track i {
-            display: block; height: 100%; border-radius: 4px;
-            background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+        .skill-rows { display: flex; flex-direction: column; gap: 15px; }
+        .skill-row { display: flex; align-items: center; gap: 12px; }
+        .skill-row-main { flex: 1; min-width: 0; }
+        .skill-row-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 10px; }
+        .skill-level {
+            font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 2px 10px; border-radius: 8px; white-space: nowrap;
         }
+        .level-master { color: var(--bg); background: var(--gold); }
+        .level-pro { color: var(--teal); border: 1.5px solid var(--teal); background: transparent; }
+        .skill-row-evidence { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
         .skill-mini-tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .skill-mini {
             font-size: 12px; padding: 6px 14px; border-radius: 10px;
@@ -652,7 +653,7 @@ var _hmt = _hmt || [];
         <div class="section-head">
             <span class="section-kicker">SKILLS</span>
             <h2 class="section-title">专业技能</h2>
-            <p class="section-subtitle">产品经理能力矩阵：专业方法 × 工具熟练度 × 技术理解力</p>
+            <p class="section-subtitle">产品经理能力矩阵：专业方法 × 工具 × 技术理解力</p>
         </div>
         <!-- 三类合成一个：大环形能力总览（专业技能 / 产品工具 / 技术基础） -->
         <div class="skills-overview">
@@ -680,16 +681,46 @@ var _hmt = _hmt || [];
         </div>
         <!-- 三分类明细卡片 -->
         <div class="skills-cards">
-            <!-- 01 专业技能：核心能力进度条 -->
+            <!-- 01 专业技能：能力层级 + 经历证据（不用自评百分比，用事实说话） -->
             <div class="skill-card">
                 <div class="skill-card-head"><span class="skill-card-num">01</span><h3>专业技能</h3></div>
-                <div class="skill-bars">
-                    <div class="skill-bar"><div class="bar-info"><span>需求挖掘</span><b>96%</b></div><div class="bar-track"><i style="width:96%"></i></div></div>
-                    <div class="skill-bar"><div class="bar-info"><span>数据分析</span><b>92%</b></div><div class="bar-track"><i style="width:92%"></i></div></div>
-                    <div class="skill-bar"><div class="bar-info"><span>原型设计</span><b>94%</b></div><div class="bar-track"><i style="width:94%"></i></div></div>
-                    <div class="skill-bar"><div class="bar-info"><span>产品规划</span><b>90%</b></div><div class="bar-track"><i style="width:90%"></i></div></div>
-                    <div class="skill-bar"><div class="bar-info"><span>竞品分析</span><b>88%</b></div><div class="bar-track"><i style="width:88%"></i></div></div>
-                    <div class="skill-bar"><div class="bar-info"><span>跨部门协同</span><b>91%</b></div><div class="bar-track"><i style="width:91%"></i></div></div>
+                <div class="skill-rows">
+                    <div class="skill-row">
+                        <div class="skill-row-main">
+                            <div class="skill-row-name">需求挖掘<span class="skill-level level-master">精通</span></div>
+                            <div class="skill-row-evidence">4年深耕，主导5个核心项目从0到1</div>
+                        </div>
+                    </div>
+                    <div class="skill-row">
+                        <div class="skill-row-main">
+                            <div class="skill-row-name">数据分析<span class="skill-level level-master">精通</span></div>
+                            <div class="skill-row-evidence">数据驱动功能迭代与运营策略优化</div>
+                        </div>
+                    </div>
+                    <div class="skill-row">
+                        <div class="skill-row-main">
+                            <div class="skill-row-name">原型设计<span class="skill-level level-master">精通</span></div>
+                            <div class="skill-row-evidence">0→1 全流程交付，覆盖B端中台与C端电商</div>
+                        </div>
+                    </div>
+                    <div class="skill-row">
+                        <div class="skill-row-main">
+                            <div class="skill-row-name">产品规划<span class="skill-level level-pro">熟练</span></div>
+                            <div class="skill-row-evidence">中台 / 电商 / AI 多业务线并行推进</div>
+                        </div>
+                    </div>
+                    <div class="skill-row">
+                        <div class="skill-row-main">
+                            <div class="skill-row-name">竞品分析<span class="skill-level level-pro">熟练</span></div>
+                            <div class="skill-row-evidence">多领域竞品调研，支撑产品定位决策</div>
+                        </div>
+                    </div>
+                    <div class="skill-row">
+                        <div class="skill-row-main">
+                            <div class="skill-row-name">跨部门协同<span class="skill-level level-pro">熟练</span></div>
+                            <div class="skill-row-evidence">联动研发 / 市场 / 渠道多团队推进落地</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- 02 产品工具：分类标签 -->
