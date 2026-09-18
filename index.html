@@ -324,12 +324,13 @@ var _hmt = _hmt || [];
         .donut-wrap { position: relative; width: 250px; height: 250px; flex-shrink: 0; }
         .donut {
             width: 250px; height: 250px; border-radius: 50%;
+            /* 三等分：三大能力维度同等重要，只作结构示意，不表达任何权重比例 */
             background: conic-gradient(
-                var(--gold) 0% 59%,
-                var(--bg) 59% 61%,
-                var(--teal) 61% 84%,
-                var(--bg) 84% 86%,
-                var(--steel) 86% 100%
+                var(--gold) 0% 32.5%,
+                var(--bg) 32.5% 33.5%,
+                var(--teal) 33.5% 66%,
+                var(--bg) 66% 67%,
+                var(--steel) 67% 100%
             );
             box-shadow: 0 0 50px rgba(201, 162, 39, 0.15);
             -webkit-mask: radial-gradient(circle, transparent 60%, #000 61.5%);
@@ -363,16 +364,15 @@ var _hmt = _hmt || [];
             justify-content: center; letter-spacing: 0;
         }
         .skill-card-head h3 { font-size: 16px; font-weight: 800; color: var(--text); letter-spacing: 1px; }
-        .skill-rows { display: flex; flex-direction: column; gap: 15px; }
+        .skill-rows { display: flex; flex-direction: column; gap: 16px; }
         .skill-row { display: flex; align-items: center; gap: 12px; }
         .skill-row-main { flex: 1; min-width: 0; }
-        .skill-row-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 10px; }
-        .skill-level {
-            font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 2px 10px; border-radius: 8px; white-space: nowrap;
+        .skill-row-name { font-size: 14px; font-weight: 700; color: var(--text); }
+        .skill-row-name::before {
+            content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--gold); margin-right: 10px; vertical-align: 2px;
         }
-        .level-master { color: var(--bg); background: var(--gold); }
-        .level-pro { color: var(--teal); border: 1.5px solid var(--teal); background: transparent; }
-        .skill-row-evidence { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+        .skill-row-evidence { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.5; padding-left: 16px; }
         .skill-mini-tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .skill-mini {
             font-size: 12px; padding: 6px 14px; border-radius: 10px;
@@ -661,13 +661,13 @@ var _hmt = _hmt || [];
                 <div class="donut"></div>
                 <div class="donut-center">
                     <b>4年+</b>
-                    <span>PM 能力总览</span>
+                    <span>PM 能力矩阵</span>
                 </div>
             </div>
             <div class="donut-legend">
                 <div class="legend-item">
                     <span class="legend-dot core"></span>
-                    <div><b>专业技能</b><em>需求 · 数据 · 规划 · 原型</em></div>
+                    <div><b>专业技能</b><em>需求 · 数据 · 原型 · 规划</em></div>
                 </div>
                 <div class="legend-item">
                     <span class="legend-dot tools"></span>
@@ -681,44 +681,44 @@ var _hmt = _hmt || [];
         </div>
         <!-- 三分类明细卡片 -->
         <div class="skills-cards">
-            <!-- 01 专业技能：能力层级 + 经历证据（不用自评百分比，用事实说话） -->
+            <!-- 01 专业技能：只列简历原文可追溯的事实（不主观分级、不打分） -->
             <div class="skill-card">
                 <div class="skill-card-head"><span class="skill-card-num">01</span><h3>专业技能</h3></div>
                 <div class="skill-rows">
                     <div class="skill-row">
                         <div class="skill-row-main">
-                            <div class="skill-row-name">需求挖掘<span class="skill-level level-master">精通</span></div>
-                            <div class="skill-row-evidence">4年深耕，主导5个核心项目从0到1</div>
+                            <div class="skill-row-name">需求挖掘</div>
+                            <div class="skill-row-evidence">4年产品经验，主导多个从0-1核心项目落地</div>
                         </div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-row-main">
-                            <div class="skill-row-name">数据分析<span class="skill-level level-master">精通</span></div>
-                            <div class="skill-row-evidence">数据驱动功能迭代与运营策略优化</div>
+                            <div class="skill-row-name">数据分析</div>
+                            <div class="skill-row-evidence">基于用户行为数据驱动功能迭代与运营策略优化</div>
                         </div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-row-main">
-                            <div class="skill-row-name">原型设计<span class="skill-level level-master">精通</span></div>
-                            <div class="skill-row-evidence">0→1 全流程交付，覆盖B端中台与C端电商</div>
+                            <div class="skill-row-name">原型设计</div>
+                            <div class="skill-row-evidence">覆盖需求分析、场景拆解、原型设计、文档输出全流程</div>
                         </div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-row-main">
-                            <div class="skill-row-name">产品规划<span class="skill-level level-pro">熟练</span></div>
-                            <div class="skill-row-evidence">中台 / 电商 / AI 多业务线并行推进</div>
+                            <div class="skill-row-name">产品规划</div>
+                            <div class="skill-row-evidence">统筹生态合作入口的产品规划与运营体系搭建</div>
                         </div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-row-main">
-                            <div class="skill-row-name">竞品分析<span class="skill-level level-pro">熟练</span></div>
-                            <div class="skill-row-evidence">多领域竞品调研，支撑产品定位决策</div>
+                            <div class="skill-row-name">AI 产品设计</div>
+                            <div class="skill-row-evidence">主导小炫AI、智标宝等AI产品从0到1的设计与落地</div>
                         </div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-row-main">
-                            <div class="skill-row-name">跨部门协同<span class="skill-level level-pro">熟练</span></div>
-                            <div class="skill-row-evidence">联动研发 / 市场 / 渠道多团队推进落地</div>
+                            <div class="skill-row-name">跨部门协同</div>
+                            <div class="skill-row-evidence">联动市场、渠道、研发等多部门推进产品落地</div>
                         </div>
                     </div>
                 </div>
