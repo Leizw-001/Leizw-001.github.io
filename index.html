@@ -113,6 +113,7 @@ var _hmt = _hmt || [];
             padding: 9px 20px; border-radius: 10px; background: var(--gold); color: #FFF;
             font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s;
             letter-spacing: 1px;
+            display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
         }
         .btn-resume:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(201, 162, 39, 0.35); }
         .menu-toggle { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text); min-width: 44px; min-height: 44px; }
@@ -511,7 +512,7 @@ var _hmt = _hmt || [];
                 <li><a href="#contact">联系方式</a></li>
             </ul>
             <div class="nav-actions"> <!-- 右边：暗色模式按钮 + 下载简历 + 手机菜单按钮 -->
-                <button class="btn-resume" onclick="window.print()">下载简历</button> <!-- onclick：点击就调用浏览器打印 -->
+                <a class="btn-resume" href="assets/resume.pdf" download="雷增伟-产品经理简历.pdf">下载简历</a> <!-- 点击直接下载简历 PDF -->
                 <button class="menu-toggle" id="menuToggle">☰</button>
             </div>
         </div>
